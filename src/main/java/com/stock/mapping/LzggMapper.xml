@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.LzggMapper" >
+
+
+    <resultMap id="BaseResultMap" type="com.stock.pojo.Lzgg" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stock_cd" property="stock_cd" jdbcType="VARCHAR" />
+    <result column="stock_name" property="stock_name" jdbcType="VARCHAR" />
+    <result column="current_price" property="current_price" jdbcType="VARCHAR" />
+    <result column="rise_day" property="rise_day" jdbcType="VARCHAR" />
+    <result column="rise_three" property="rise_three" jdbcType="VARCHAR" />
+    <result column="rise_five" property="rise_five" jdbcType="VARCHAR" />
+    <result column="change_day" property="change_day" jdbcType="VARCHAR" />
+    <result column="change_three" property="change_three" jdbcType="VARCHAR" />
+     <result column="change_five" property="change_five" jdbcType="VARCHAR" />
+    <result column="fluid_day" property="fluid_day" jdbcType="VARCHAR" />
+    <result column="fluid_three" property="fluid_three" jdbcType="VARCHAR" />
+    <result column="fluid_five" property="fluid_five" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    
+    
+  </resultMap>
+  
+  
+  
+  <sql id="Base_Column_List" >
+    id, stock_cd,stock_name,current_price,rise_day,rise_three,rise_five,
+    change_day,change_three, change_five, fluid_day,fluid_three,fluid_five,date
+  </sql>
+  
+   <select id="select_all" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Lzgg
+    order by date desc limit #{0},10
+  </select>
+  
+
+  </mapper>

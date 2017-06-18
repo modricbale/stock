@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.A_tagMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.pojo.area_tag" >
+    <id column="atag_id" property="atag_id" jdbcType="INTEGER" />
+    <result column="atag_name" property="atag_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    atag_id, atag_name
+  </sql>
+     <select id="gettag"  resultMap="BaseResultMap">
+  	select atag_name from area_tag 
+  </select>
+  </mapper>

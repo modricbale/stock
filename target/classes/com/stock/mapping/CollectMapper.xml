@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.CollectMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.pojo.Collect" >
+    <id column="collect_id" property="collect_id" jdbcType="INTEGER" />
+    <result column="stock_cd" property="stock_cd" jdbcType="INTEGER" />
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    collect_id, stock_cd, user_id
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from collect
+    where collect_id = #{collect_id,jdbcType=INTEGER}
+  </delete>
+  
+   <delete id="deleteBycd" parameterType="java.lang.String" >
+    delete from collect
+    where stock_cd = #{stock_cd,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.stock.pojo.Collect" >
+    insert into collect ( stock_cd, user_id)
+    values (  #{stock_cd,jdbcType=INTEGER}, 
+      #{user_id,jdbcType=INTEGER})
+  </insert>
+  
+    
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from collect
+    where collect_id = #{collect_id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectall" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select *
+  	from collect
+  </select>
+  
+    <select id="selectcdbyid" parameterType="java.lang.Integer" resultType="java.lang.String">
+  	select stock_cd
+  	from collect where user_id = #{user_id,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

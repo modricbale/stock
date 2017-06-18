@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.Emo_NegMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.pojo.Emo_Neg" >
+    <id column="emotion_neg_id" property="emotion_neg_id" jdbcType="INTEGER" />
+    <result column="emotion_neg_word" property="emotion_neg_word" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    emotion_neg_id, emotion_neg_word
+  </sql>
+  
+  <insert id="insertneg" parameterType="com.stock.mapping.Emo_NegMapper" >
+    insert into emo_neg (emotion_neg_word)
+    values (#{emotion_neg_word,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="selectallneg" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from emo_neg 
+  </select>
+  
+  <select id="selectByWordneg" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from emo_neg where emotion_neg_word=#{emotion_neg_word,jdbcType=VARCHAR}
+  </select>
+    
+  </mapper>

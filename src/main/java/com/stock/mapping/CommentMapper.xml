@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.pojo.Comment" >
+    <id column="com_id" property="com_id" jdbcType="INTEGER" />
+    <result column="stock_id" property="stock_id" jdbcType="INTEGER" />
+    <result column="news_id" property="news_id" jdbcType="INTEGER" />
+    <result column="commentator_id" property="commentator_id" jdbcType="INTEGER" />
+    <result column="com_content" property="com_content" jdbcType="VARCHAR" />
+    <result column="com_time" property="com_time" jdbcType="VARCHAR" />
+    <result column="com_emotion" property="com_emotion" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    com_id, stock_id, news_id, commentator_id, com_content, com_time,com_emotion
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comment
+    where com_id = #{com_id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.stock.pojo.Comment" >
+    insert into comment ( stock_id, news_id, 
+      commentator_id, com_content, com_time,com_emotion)
+    values (  #{stock_id,jdbcType=INTEGER}, 
+      #{news_id,jdbcType=INTEGER}, #{commentator_id,jdbcType=INTEGER}, #{com_content,jdbcType=VARCHAR}, 
+      #{com_time,jdbcType=VARCHAR},#{com_emotion,jdbcType=INTEGER})
+  </insert>
+  
+    <insert id="insertSelective" parameterType="com.stock.pojo.Comment" >
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="com_id != null" >
+        com_id,
+      </if>
+      <if test="stock_id != null" >
+        stock_id,
+      </if>
+      <if test="news_id != null" >
+        news_id,
+      </if>
+      <if test="commentator_id != null" >
+        commentator_id,
+      </if>
+      <if test="com_content != null" >
+        com_content,
+      </if>
+      <if test="com_time != null" >
+        com_time,
+      </if>
+      <if test="com_emotion != null" >
+        com_emotion,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="com_id != null" >
+        #{com_id,jdbcType=INTEGER},
+      </if>
+      <if test="stock_id != null" >
+        #{stock_id,jdbcType=INTEGER},
+      </if>
+      <if test="news_id != null" >
+        #{news_id,jdbcType=INTEGER},
+      </if>
+      <if test="commentator_id != null" >
+        #{commentator_id,jdbcType=INTEGER},
+      </if>
+      <if test="com_content != null" >
+        #{com_content,jdbcType=VARCHAR},
+      </if>
+      <if test="com_time != null" >
+        #{com_time,jdbcType=VARCHAR},
+      </if>
+  	    <if test="com_emotion != null" >
+        #{com_emotion,jdbcType=VARCHAR},
+      </if>   
+    </trim>
+  </insert>
+  
+  <select id="commentcount" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+  select count(*) from comment where news_id = #{news_id,jdbcType=INTEGER}
+  </select>
+ 
+  <select id="stock_comment_scount" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+  select count(*) from comment where stock_id = #{stock_id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where com_id = #{com_id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectall" parameterType="java.lang.Integer" resultType="java.util.Map">
+  	select c.*,u.*
+  	from comment c ,user u
+  	where c.commentator_id=u.u_id and c.news_id = #{news_id,jdbcType=INTEGER}
+  	order by com_time DESC
+  </select>
+  
+  <select id="selectall1" parameterType="java.lang.Integer" resultType="java.util.Map">
+  	select c.*,u.*
+  	from comment c ,user u
+  	where c.commentator_id=u.u_id and c.stock_id = #{stock_id,jdbcType=INTEGER}
+  	order by com_time DESC
+  </select>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.stock.pojo.Comment" >
+    update comment
+    <set >
+    <if test="com_id != null" >
+        #{com_id,jdbcType=INTEGER},
+      </if>
+      <if test="stock_id != null" >
+        #{stock_id,jdbcType=INTEGER},
+      </if>
+      <if test="news_id != null" >
+        #{news_id,jdbcType=INTEGER},
+      </if>
+      <if test="commentator_id != null" >
+        #{commentator_id,jdbcType=INTEGER},
+      </if>
+      <if test="com_content != null" >
+        #{com_content,jdbcType=VARCHAR},
+      </if>
+      <if test="com_time != null" >
+        #{com_time,jdbcType=VARCHAR},
+      </if>
+       <if test="com_emotion != null" >
+        com_emotion,
+      </if>
+    </set>
+    where com_id = #{com_id,jdbcType=INTEGER}
+  </update>
+  
+    <!-- 更新评论的情感 xiaoyan-->
+  <update id="updateEmotionByPrimaryKey" parameterType="hashMap">
+  	update comment 
+  	set com_emotion = #{com_emotion,jdbcType=INTEGER}
+  	where com_id = #{com_id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 获取某股票的评论数量 xiaoyan-->
+  <select id="selectEmotionNum" resultType="java.lang.Integer">
+  	select count(1) from comment where stock_id = #{stock_id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 获取某股票正向情感的数量 xiaoyan-->
+  <select id="selectEmotionpos" resultType="java.lang.Integer">
+  <!-- 转义字符  &gt;代表> -->
+  	select count(1) from comment where com_emotion &gt; 0 and stock_id = #{stock_id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 获取某股票逆向情感的数量 xiaoyan -->
+  <select id="selectEmotionneg" resultType="java.lang.Integer">
+  <!-- &lt;代表'<' -->
+  	select count(1) from comment where com_emotion &lt; 0 and stock_id = #{stock_id,jdbcType=INTEGER}
+  </select>
+  
+  
+</mapper>

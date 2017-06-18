@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.ReplyMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.pojo.Reply" >
+    <id column="r_id" property="r_id" jdbcType="INTEGER" />
+    <result column="r_sendid" property="r_sendid" jdbcType="INTEGER" />
+    <result column="r_receiveid" property="r_receiveid" jdbcType="INTEGER" />
+    <result column="r_commentid" property="r_commentid" jdbcType="INTEGER" />
+    <result column="r_content" property="r_content" jdbcType="VARCHAR" />
+    <result column="r_time" property="r_time" jdbcType="VARCHAR" />
+    <result column="news_id" property="news_id" jdbcType="INTEGER" />
+    <result column="r_stockid" property="r_stockid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    r_id, r_sendid, r_receiveid, r_commentid, r_content, r_time,news_id,r_stockid
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from reply
+    where r_id = #{r_id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.stock.pojo.Reply" >
+    insert into reply ( r_sendid, 
+      r_receiveid, r_commentid, r_content,r_time,r_newsid,r_stockid)
+    values (  #{r_sendid,jdbcType=INTEGER}, 
+      #{r_receiveid,jdbcType=INTEGER}, #{r_commentid,jdbcType=INTEGER}, #{r_content,jdbcType=VARCHAR}, 
+      #{r_time,jdbcType=VARCHAR},#{r_newsid,jdbcType=INTEGER},#{r_stockid,jdbcType=INTEGER})
+  </insert>
+  
+
+  
+  <select id="selectall" parameterType="java.lang.Integer" resultType="java.util.Map">
+  	select r.*,u.*
+  	from reply r ,user u
+  	where r.r_sendid = u.u_id and r_newsid = #{r_newsid,jdbcType=INTEGER}
+  	order by  r_time DESC
+  </select>
+  
+   <select id="selectall1" parameterType="java.lang.Integer" resultType="java.util.Map">
+  	select r.*,u.*
+  	from reply r ,user u
+  	where r.r_sendid = u.u_id and r_stockid = #{r_stockid,jdbcType=INTEGER}
+  	order by  r_time DESC
+  </select>
+
+
+   <select id="getreplycount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	select count(*)
+  	from reply r 
+  	where r_newsid = #{r_newsid,jdbcType=INTEGER}
+  </select>
+  
+   <select id="get_stock_reply_count" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	select count(*)
+  	from reply r 
+  	where r_stockid = #{r_stockid,jdbcType=INTEGER}
+  </select>
+
+  <select id="getreply" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	select *
+  	from reply where r_newsid = #{r_newsid,jdbcType=INTEGER}
+  	order by  r_time DESC
+  </select>  
+  
+  <select id="all_comment_reply" parameterType="java.lang.Integer" resultType="java.util.Map">
+	SELECT comment.*,reply.*,user.*from comment LEFT JOIN reply on comment.com_id=reply.r_commentid
+ 	LEFT JOIN user on comment.commentator_id = user.u_id
+  </select>
+
+  
+</mapper>

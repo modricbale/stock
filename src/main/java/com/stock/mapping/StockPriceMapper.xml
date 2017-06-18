@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.StockPriceMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.pojo.StockPrice" >
+    <id column="stockpri_id" property="stockpri_id" jdbcType="INTEGER" />
+    <result column="stock_id" property="stock_id" jdbcType="INTEGER" />
+    <result column="tod_opening_pri" property="tod_opening_pri" jdbcType="DOUBLE" />
+    <result column="yes_closing_pri" property="yes_closing_pri" jdbcType="DOUBLE" />
+    <result column="curr_pri" property="curr_pri" jdbcType="DOUBLE" />
+    <result column="tod_min_pri" property="tod_min_pri" jdbcType="DOUBLE" />
+    <result column="tod_max_pri" property="tod_max_pri" jdbcType="DOUBLE" />
+    <result column="bid_pri" property="bid_pri" jdbcType="DOUBLE" />
+    <result column="comp_pri" property="comp_pri" jdbcType="DOUBLE" />
+    <result column="turn_pri" property="turn_pri" jdbcType="DOUBLE" />
+    <result column="trade_stocks" property="trade_stocks" jdbcType="INTEGER" />
+    <result column="updown_money" property="updown_money" jdbcType="DOUBLE" />
+    <result column="updown_rate" property="updown_rate" jdbcType="DOUBLE" />
+              
+  </resultMap>
+  <sql id="Base_Column_List" >
+    stockpri_id, stock_id, tod_opening_pri, yes_closing_pri, curr_pri, tod_min_pri, tod_max_pri, 
+    bid_pri,comp_pri,turn_pri,trade_stocks,updown_money,updown_rate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stockprice
+    where stockpri_id = #{stockpri_id,jdbcType=INTEGER} 
+  </select>
+  
+  <select id="listAllStockPrice" resultType="java.util.Map">
+    select sp.*,s.stock_cd,s.sec_short_name
+    from stockprice sp,stock s
+    where sp.stock_id=s.stock_id
+  </select>
+	
+</mapper>

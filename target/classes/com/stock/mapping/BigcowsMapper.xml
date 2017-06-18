@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.BigcowsMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.pojo.Bigcows" >
+    <id column="u_id" property="u_id" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    u_id
+  </sql>
+  
+  <select id="showbigcows" resultType="java.util.Map">
+  	select b.*,t.*
+  	from bigcow b ,t_log t
+  	where b.u_id=t.userid order by t.createdate DESC
+  </select>
+  
+ </mapper>

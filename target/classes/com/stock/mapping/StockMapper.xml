@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.StockMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.pojo.Stock" >
+    <id column="stock_id" property="stock_id" jdbcType="INTEGER" />
+    <result column="stock_cd" property="stock_cd" jdbcType="VARCHAR" />
+    <result column="securities" property="securities" jdbcType="VARCHAR" />
+    <result column="list_sector_id" property="list_sector_id" jdbcType="VARCHAR" />
+    <result column="list_sector" property="list_sector" jdbcType="VARCHAR" />
+    <result column="trans_curr" property="trans_curr" jdbcType="VARCHAR" />
+    <result column="sec_short_name" property="sec_short_name" jdbcType="VARCHAR" />
+    <result column="sec_full_name" property="sec_full_name" jdbcType="VARCHAR" />
+    <result column="list_status" property="list_status" jdbcType="VARCHAR" />
+    <result column="list_date" property="list_date" jdbcType="TIMESTAMP" />
+    <result column="delist_date" property="delist_date" jdbcType="TIMESTAMP" />
+    <result column="stock_type_id" property="stock_type_id" jdbcType="VARCHAR" />
+    <result column="stock_type" property="stock_type" jdbcType="VARCHAR" />
+    <result column="market_country" property="market_country" jdbcType="VARCHAR" />
+    <result column="party_id" property="party_id" jdbcType="INTEGER" />
+    <result column="total_shares" property="total_shares" jdbcType="VARCHAR" />
+    <result column="nonrest_float_shares" property="nonrest_float_shares" jdbcType="VARCHAR" />
+    <result column="nonrest_float_capital_stock" property="nonrest_float_capital_stock" jdbcType="VARCHAR" />
+    <result column="office_addr" property="office_addr" jdbcType="VARCHAR" />
+    <result column="prime_operating" property="prime_operating" jdbcType="VARCHAR" />
+    <result column="end_date" property="end_date" jdbcType="TIMESTAMP" />
+    <result column="total_equity" property="total_equity" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    stock_id, stock_cd, securities, list_sector_id, list_sector, trans_curr, sec_short_name, 
+    sec_full_name,list_status,list_date,delist_date,stock_type_id,stock_type,market_country,party_id,
+    total_shares,nonrest_float_shares,nonrest_float_capital_stock,office_addr,prime_operating,
+    end_date,total_equity
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock
+    where stock_id = #{stock_id,jdbcType=INTEGER} 
+    </select>
+    
+    <select id="selectByStockCd" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock
+    where  stock_cd = #{stock_cd,jdbcType=VARCHAR} 
+    </select>
+    
+     <select id="selectByname" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    *
+    from stock
+    where  sec_short_name = #{sec_short_name,jdbcType=VARCHAR} 
+    </select>
+    
+    
+   <select id="chooseByStockCd" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select stock_cd,sec_short_name
+    from stock
+    where  stock_cd like  #{stock_cd,jdbcType=VARCHAR} limit 8
+    </select>
+    
+   <select id="getid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select stock_id from stock 
+  	order by stock_id
+   </select>
+    
+    <select id="chooseByStockShortName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select stock_cd,sec_short_name
+    from stock
+    where  sec_short_name like #{sec_short_name,jdbcType=VARCHAR} limit 8
+    </select>
+    
+  <select id="selectByStockcd" resultType="java.lang.String" parameterType="java.lang.String" >
+      select securities
+      from stock
+      where stock_cd = #{stock_cd,jdbcType=VARCHAR} 
+  </select>
+
+ <select id="selectnamebycd" resultType="java.lang.String" parameterType="java.lang.String" >
+      select sec_short_name
+      from stock
+      where stock_cd = #{stock_cd,jdbcType=VARCHAR} 
+  </select>
+
+  <select id="selectname" resultType="java.lang.String"  parameterType="java.lang.String" >
+      select prime_operating
+      from stock
+  </select> 
+  
+  <select id="listAllStock" resultMap="BaseResultMap"  >
+    select * from stock
+  </select>
+  <select id="listAllStockByPage" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+    select * from stock
+    limit #{start},#{pagesize}
+  </select>
+	
+</mapper>

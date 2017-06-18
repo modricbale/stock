@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.Tong_newsMapper" >
+    <resultMap id="BaseResultMap" type="com.stock.pojo.Tong_news" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="main_service" property="main_service" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="rank" property="rank" jdbcType="VARCHAR" />
+    <result column="controller" property="controller" jdbcType="VARCHAR" />
+    <result column="company_news" property="company_news" jdbcType="VARCHAR" />
+    <result column="news_title" property="news_title" jdbcType="VARCHAR" />
+    <result column="news_source" property="news_source" jdbcType="VARCHAR" />
+    <result column="news_content" property="news_content" jdbcType="VARCHAR" />
+    <result column="news_time" property="news_time" jdbcType="VARCHAR" />
+    <result column="operate_date" property="operate_date" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  
+  <sql id="Base_Column_List" >
+    id, main_service,category,rank,controller,company_name,news_title,
+    news_source,news_content,news_time,operate_date
+  </sql>
+  
+   <select id="select_all" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from company_news
+    order by news_time desc limit #{0},10
+  </select>
+  
+  <select id="select_day" resultMap="BaseResultMap" resultType="java.util.Map" >
+  	select *
+    from company_news
+    where news_time like #{0} order by news_time desc limit #{1},10
+   </select>
+   
+   <select id="select_week" resultMap="BaseResultMap" resultType="java.util.Map" >
+  	select 
+    <include refid="Base_Column_List" />
+    from company_news
+    where news_time between #{1} and #{0} order by news_time desc limit #{2},10 
+   </select>
+   
+   <select id="select_month" resultMap="BaseResultMap" resultType="java.util.Map" >
+  	select 
+    <include refid="Base_Column_List" />
+    from company_news
+    where news_time between #{1} and #{0} order by news_time desc limit #{2},10 
+   </select>
+  
+   <select id="count_all" resultType="java.lang.Integer" parameterType="java.lang.String">
+  	select count(id)
+    from company_news <!-- where news_time &lt; #{news_time,jdbcType=VARCHAR}  -->
+   </select>
+    
+   <select id="count_day" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  	select count(id)
+    from company_news where news_time like #{news_time,jdbcType=VARCHAR}
+   </select>
+    
+   <select id="count_week" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  	select count(id)
+    from company_news
+    where news_time between #{1} and #{0}
+   </select>
+    
+   <select id="count_month" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  	select count(id)
+    from company_news
+    where news_time between #{1} and #{0}
+   </select>
+   
+   <select id="company_name" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select
+  	 <include refid="Base_Column_List" />
+    from company_news where company_name in 
+    (select distinct(company_name)) and company_name!="" and news_time like #{news_time,jdbcType=VARCHAR}
+   </select>
+   
+   <select id="company_name_count" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  	select count(distinct company_name) 
+    from company_news where news_time like #{news_time,jdbcType=VARCHAR}
+   </select>
+   
+   <select id="news_source" resultType="java.lang.String" parameterType="java.lang.String" >
+  	select news_source
+    from company_news where news_time like #{news_time,jdbcType=VARCHAR}
+   </select>
+   
+     <select id="news_source_week" resultType="java.lang.String" parameterType="java.lang.String" >
+  	select news_source
+    from company_news where  news_time between #{1} and #{0} 
+   </select>
+   
+   <select id="news_source_month" resultType="java.lang.String" parameterType="java.lang.String" >
+  	select news_source
+    from company_news where  news_time between #{1} and #{0} 
+   </select>
+   
+   <select id="news_source_count" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  	select count(distinct news_source) 
+    from company_news where news_time like #{news_time,jdbcType=VARCHAR} and company_name!=""
+   </select>
+   
+   <select id="category" resultType="java.lang.String" parameterType="java.lang.String" >
+  	select category
+    from company_news where  news_time like #{news_time,jdbcType=VARCHAR}
+   </select>
+   
+   <select id="category_week" resultType="java.lang.String" parameterType="java.lang.String" >
+  	select category
+    from company_news where  news_time between #{1} and #{0} 
+   </select>
+   
+   <select id="category_month" resultType="java.lang.String" parameterType="java.lang.String" >
+  	select category
+    from company_news where  news_time between #{1} and #{0} 
+   </select>
+  
+  <select id="category_count" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  	select count(distinct category) 
+    from company_news where news_time like #{news_time,jdbcType=VARCHAR}
+   </select>
+  
+  </mapper>

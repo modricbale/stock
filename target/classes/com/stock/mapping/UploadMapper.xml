@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.UploadMapper" >
+
+
+  
+    <resultMap id="BaseResultMap" type="com.stock.pojo.Upload" >
+    <id column="upload_id" property="upload_id" jdbcType="INTEGER" />
+    <result column="upload_name" property="upload_name" jdbcType="VARCHAR" />
+    <result column="upload_time" property="upload_time" jdbcType="VARCHAR" />
+    <result column="upload_author" property="upload_author" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  
+  <sql id="Base_Column_List" >
+    upload_id, upload_name,upload_time,upload_author
+  </sql>
+  
+   <insert id="insert" parameterType="com.stock.pojo.Upload" >
+    insert into upload (upload_name,upload_time,upload_author)
+    values ( #{upload_name,jdbcType=VARCHAR},#{upload_time,jdbcType=VARCHAR},#{upload_author,jdbcType=VARCHAR})
+  </insert>
+  
+   <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from upload
+    where upload_id = #{upload_id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectname"  resultMap="BaseResultMap">
+  	select * from upload 
+  	order by upload_time
+   </select>
+  
+  </mapper>

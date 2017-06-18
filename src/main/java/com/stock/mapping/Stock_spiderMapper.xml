@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.Stock_spiderMapper" >
+    <resultMap id="BaseResultMap" type="com.stock.pojo.Stock_spider" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="first_category" property="first_category" jdbcType="VARCHAR" />
+    <result column="second_category" property="second_category" jdbcType="VARCHAR" />
+    <result column="stock_name" property="stock_name" jdbcType="VARCHAR" />
+    <result column="stock_id" property="stock_id" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="open" property="open" jdbcType="VARCHAR" />
+    <result column="high" property="high" jdbcType="VARCHAR" />
+    <result column="low" property="low" jdbcType="VARCHAR" />
+    <result column="close" property="close" jdbcType="VARCHAR" />
+    <result column="closep" property="closep" jdbcType="VARCHAR" />
+    <result column="closeavgl" property="closeavgl" jdbcType="VARCHAR" />
+    <result column="closeavg10" property="closeavg10" jdbcType="VARCHAR" />
+    <result column="volume" property="volume" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="VARCHAR" />
+    <result column="amountc" property="amountc" jdbcType="VARCHAR" />
+    <result column="avgday01" property="avgday01" jdbcType="VARCHAR" />
+    <result column="updn01" property="updn01" jdbcType="VARCHAR" />
+    <result column="avgday03" property="avgday03" jdbcType="VARCHAR" />
+    <result column="updn03" property="updn03" jdbcType="VARCHAR" />
+    <result column="avgday05" property="avgday05" jdbcType="VARCHAR" />
+     <result column="updn05" property="updn05" jdbcType="VARCHAR" />
+    <result column="avgday10" property="avgday10" jdbcType="VARCHAR" />
+    <result column="updn10" property="updn10" jdbcType="VARCHAR" />
+    <result column="avgupdn10" property="avgupdn10" jdbcType="VARCHAR" />
+    <result column="operate_date" property="operate_date" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  
+  <sql id="Base_Column_List" >
+    id, first_category,second_category,stock_name,stock_id,date,open,
+    high,low,close,closep,closeavgl,closeavg10,volume,amount,amountc,
+    avgday01,updn01,avgday03,updn03,avgday05,updn05,avgday10,updn10,
+    avgupdn10,operate_date
+  </sql>
+  
+   <select id="select_all" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from scrapy_news
+    order by date desc limit #{0},10
+  </select>
+  
+  <select id="select_day" resultMap="BaseResultMap" resultType="java.util.Map" >
+  	select 
+    <include refid="Base_Column_List" />
+    from scrapy_news 
+    where date like #{0} order by date desc limit #{1},10
+   </select>
+   
+   <select id="select_week" resultMap="BaseResultMap" resultType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from scrapy_news
+    where date between #{1} and #{0} order by date desc limit #{2},10 
+   </select>
+   
+   <select id="select_month" resultMap="BaseResultMap" resultType="java.util.Map" >
+  	select 
+    <include refid="Base_Column_List" />
+    from scrapy_news
+    where date between #{1} and #{0} order by date desc limit #{2},10 
+   </select>
+  
+   <select id="count_all" resultType="java.lang.Integer" >
+  	select count(id)
+    from scrapy_news
+   </select>
+    
+   <select id="count_day" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  	select count(id)
+    from scrapy_news where date like #{date,jdbcType=VARCHAR}
+   </select>
+    
+   <select id="count_week" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  	select count(id)
+    from scrapy_news
+    where date between #{1} and #{0}
+   </select>
+    
+   <select id="count_month" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  	select count(id)
+    from scrapy_news
+    where date between #{1} and #{0}
+   </select>
+   
+   <select id="count_company" resultType="java.lang.Integer" parameterType="java.lang.String"  >
+  	select count(distinct(stock_id))
+    from scrapy_news where date &lt;#{date,jdbcType=VARCHAR} 
+    
+   </select>
+   
+    <select id="category"  resultMap="BaseResultMap" parameterType="java.lang.String"  >
+  	select second_category,closep from scrapy_news where date = #{date,jdbcType=VARCHAR} 
+    
+   </select>
+  
+    <select id="category_all"  resultMap="BaseResultMap" parameterType="java.lang.String"  >
+  	select second_category,closep from scrapy_news where date between #{1} and #{0}
+    
+   </select>
+  
+  </mapper>

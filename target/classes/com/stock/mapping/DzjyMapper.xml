@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.DzjyMapper" >
+
+    <resultMap id="BaseResultMap" type="com.stock.pojo.Dzjy" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stock_cd" property="stock_cd" jdbcType="VARCHAR" />
+    <result column="stock_name" property="stock_name" jdbcType="VARCHAR" />
+    <result column="current_price" property="current_price" jdbcType="VARCHAR" />
+    <result column="deal_price" property="deal_price" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="VARCHAR" />
+    <result column="rate" property="rate" jdbcType="VARCHAR" />
+    <result column="buyer" property="buyer" jdbcType="VARCHAR" />
+    <result column="saler" property="saler" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  
+  
+  
+  <sql id="Base_Column_List" >
+    id, stock_cd,stock_name,current_price,deal_price,total,rate,
+    buyer,saler
+  </sql>
+  
+   <select id="select_all" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Dzjy
+    order by id desc limit #{0},10
+  </select>
+  
+
+  </mapper>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.pojo.User" >
+    <id column="u_id" property="u_id" jdbcType="INTEGER" />
+    <result column="u_name" property="u_name" jdbcType="VARCHAR" />
+    <result column="u_psd" property="u_psd" jdbcType="VARCHAR" />
+    <result column="u_type" property="u_type" jdbcType="INTEGER" />
+    <result column="u_nickname" property="u_nickname" jdbcType="VARCHAR" />
+    <result column="u_sex" property="u_sex" jdbcType="VARCHAR" />
+    <result column="u_email" property="u_email" jdbcType="VARCHAR" />
+    <result column="u_phone" property="u_phone" jdbcType="VARCHAR" />
+    <result column="u_introduce" property="u_introduce" jdbcType="VARCHAR" />
+     </resultMap>
+  <sql id="Base_Column_List" >
+    u_id, u_name, u_psd, u_type, u_type, u_nickname, u_sex, u_email,u_phone,
+    u_introduce
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where u_id = #{u_id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.stock.pojo.User" >
+    insert into user (u_name, u_psd, u_type, 
+      u_nickname, u_sex, u_email, 
+      u_phone, u_introduce)
+    values ( #{u_name,jdbcType=VARCHAR}, #{u_psd,jdbcType=VARCHAR}, 
+      #{u_type,jdbcType=INTEGER}, #{u_nickname,jdbcType=VARCHAR}, #{u_sex,jdbcType=VARCHAR}, 
+      #{u_email,jdbcType=VARCHAR}, #{u_phone,jdbcType=VARCHAR},
+       #{u_introduce,jdbcType=VARCHAR})
+  </insert>
+  
+    <insert id="insertSelective" parameterType="com.stock.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="u_id != null" >
+        u_id,
+      </if>
+      <if test="u_name != null" >
+        u_name,
+      </if>
+      <if test="u_psd != null" >
+        u_psd,
+      </if>
+      <if test="u_type != null" >
+        u_type,
+      </if>
+      <if test="u_nickname != null" >
+        u_nickname,
+      </if>
+      <if test="u_sex != null" >
+        u_sex,
+      </if>
+      <if test="u_email != null" >
+        u_email,
+      </if>
+      <if test="u_phone != null" >
+        u_phone,
+      </if>
+      <if test="u_introduce != null" >
+        u_introduce,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="u_id != null" >
+        #{u_id,jdbcType=INTEGER},
+      </if>
+      <if test="u_name != null" >
+        #{u_name,jdbcType=VARCHAR},
+      </if>
+      <if test="u_psd != null" >
+        #{u_psd,jdbcType=VARCHAR},
+      </if>
+      <if test="u_type != null" >
+        #{u_type,jdbcType=INTEGER},
+      </if>
+      <if test="u_nickname != null" >
+        #{u_nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="u_sex != null" >
+        #{u_sex,jdbcType=VARCHAR},
+      </if>
+      <if test="u_email != null" >
+        #{u_email,jdbcType=VARCHAR},
+      </if>
+      <if test="u_phone != null" >
+        #{u_phone,jdbcType=VARCHAR},
+      </if>
+      <if test="u_introduce != null" >
+        #{u_introduce,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where u_id = #{u_id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectall" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from user 
+  </select>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.stock.pojo.User" >
+    update user
+    <set >
+      <if test="u_name != null" >
+        u_name = #{u_name,jdbcType=VARCHAR},
+      </if>
+      <if test="u_psd != null" >
+        u_psd = #{u_psd,jdbcType=VARCHAR},
+      </if>
+      <if test="u_type != null" >
+        u_type = #{u_type,jdbcType=INTEGER},
+      </if>
+      <if test="u_nickname != null" >
+        u_nickname = #{u_nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="u_sex != null" >
+        u_sex = #{u_sex,jdbcType=VARCHAR},
+      </if>
+      <if test="u_email != null" >
+        u_email = #{u_email,jdbcType=VARCHAR},
+      </if>
+      <if test="u_phone != null" >
+        u_phone = #{u_phone,jdbcType=VARCHAR},
+      </if>
+      <if test="u_introduce != null" >
+        u_introduce = #{u_introduce,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where u_id = #{u_id,jdbcType=INTEGER}
+  </update>
+  
+   <update id="updateByPrimaryKey" parameterType="com.stock.pojo.User" >
+    update user
+    set  u_name = #{u_name,jdbcType=VARCHAR},
+      u_psd = #{u_psd,jdbcType=VARCHAR},
+      u_type = #{u_type,jdbcType=INTEGER},
+      u_nickname = #{u_nickname,jdbcType=VARCHAR},
+      u_sex = #{u_sex,jdbcType=VARCHAR},
+      u_email = #{u_email,jdbcType=VARCHAR},
+      u_phone = #{u_phone,jdbcType=VARCHAR},
+      u_introduce = #{u_introduce,jdbcType=VARCHAR},
+  </update>
+  
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from user where u_name=#{u_name,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateByName" parameterType="com.stock.pojo.User" >
+    update user
+    set u_name = #{u_name,jdbcType=VARCHAR},
+      u_psd = #{u_psd,jdbcType=VARCHAR},
+      u_type = #{u_type,jdbcType=INTEGER},
+      u_nickname = #{u_nickname,jdbcType=VARCHAR},
+      u_sex = #{u_sex,jdbcType=VARCHAR},
+      u_email = #{u_email,jdbcType=VARCHAR},
+      u_phone = #{u_phone,jdbcType=VARCHAR},
+      u_introduce = #{u_introduce,jdbcType=VARCHAR}
+      where u_name=#{u_name,jdbcType=VARCHAR},
+   </update>
+  
+  <!-- 用户注册  xiaoyan-->
+  	<insert id="insertUser" parameterType="com.stock.pojo.User">
+  		insert into user(u_name,u_psd,u_email,u_type) 
+  		values(#{u_name,jdbcType=VARCHAR},
+  			   #{u_psd,jdbcType=VARCHAR},
+			   #{u_email,jdbcType=VARCHAR},
+			   #{u_type,jdbcType=INTEGER})
+  	</insert>
+  	
+  	<select id="userLogin" parameterType="hashMap" resultType="com.stock.pojo.User">
+  	select 
+	<include refid="Base_Column_List" /> 
+	from user
+  	where u_name=#{u_name,jdbcType=VARCHAR} and u_psd=#{u_psd,jdbcType=VARCHAR}
+  </select>
+  
+   <!-- 根据email查询用户是否存在 xiaoyan-->
+  <select id="selectByEmail" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from user
+  	where u_email = #{u_email, jdbcType=VARCHAR} 
+  </select>
+  
+    <!-- 修改个人信息 xiaoyan-->
+   <update id="updateByPrimaryKey1" parameterType="com.stock.pojo.User" >
+    update user
+    set  
+      u_psd = #{u_psd,jdbcType=VARCHAR},
+      u_nickname = #{u_nickname,jdbcType=VARCHAR},
+      u_sex = #{u_sex,jdbcType=INTEGER},
+      u_email = #{u_email,jdbcType=VARCHAR},
+      u_phone = #{u_phone,jdbcType=VARCHAR},
+      u_introduce = #{u_introduce,jdbcType=VARCHAR}
+      where u_id = #{u_id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+	
+</mapper>

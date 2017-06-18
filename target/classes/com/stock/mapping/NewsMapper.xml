@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.mapping.NewsMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.pojo.News" >
+    <id column="news_id" property="news_id" jdbcType="INTEGER" />
+    <result column="news_title" property="news_title" jdbcType="VARCHAR" />
+    <result column="news_source" property="news_source" jdbcType="VARCHAR" />
+    <result column="news_time" property="news_time" jdbcType="VARCHAR" />
+    <result column="news_type" property="news_type" jdbcType="VARCHAR" />
+    <result column="news_content" property="news_content" jdbcType="VARCHAR" />
+     <result column="news_weight" property="news_weight" jdbcType="INTEGER" />
+      <result column="news_keywords" property="news_keywords" jdbcType="VARCHAR" />
+       <result column="news_area" property="news_area" jdbcType="VARCHAR" />
+        <result column="news_industry" property="news_industry" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    news_id, news_title, news_source, news_time, news_type, news_content,news_weight,news_keywords,
+    news_area,news_industry
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from news
+    where news_id = #{news_id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.stock.pojo.News" >
+    insert into news (news_id, news_title, news_source, 
+      news_time, news_type, news_content,news_weight,news_keywords,news_area,news_industry)
+    values ( #{news_id,jdbcType=VARCHAR}, #{news_title,jdbcType=VARCHAR}, 
+      #{news_source,jdbcType=VARCHAR}, #{news_time,jdbcType=VARCHAR}, #{news_type,jdbcType=VARCHAR}, 
+      #{news_content,jdbcType=VARCHAR},#{news_weight,jdbcType=INTEGER},
+      #{news_keywords,jdbcType=VARCHAR},
+      #{news_area,jdbcType=VARCHAR},
+      #{news_industry,jdbcType=VARCHAR})
+  </insert>
+  
+    <insert id="insertSelective" parameterType="com.stock.pojo.News" >
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="news_id != null" >
+        news_id,
+      </if>
+      <if test="news_title != null" >
+        news_title,
+      </if>
+      <if test="news_source != null" >
+        news_source,
+      </if>
+      <if test="news_time != null" >
+        news_time,
+      </if>
+      <if test="news_type != null" >
+        news_type,
+      </if>
+      <if test="news_content != null" >
+        news_content,
+      </if>
+     
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="news_id != null" >
+        #{news_id,jdbcType=INTEGER},
+      </if>
+      <if test="news_title != null" >
+        #{news_title,jdbcType=VARCHAR},
+      </if>
+      <if test="news_source != null" >
+        #{news_source,jdbcType=VARCHAR},
+      </if>
+      <if test="news_time != null" >
+        #{news_time,jdbcType=VARCHAR},
+      </if>
+      <if test="news_type != null" >
+        #{news_type,jdbcType=VARCHAR},
+      </if>
+      <if test="news_content != null" >
+        #{news_content,jdbcType=VARCHAR},
+      </if>
+  
+    </trim>
+  </insert>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from news
+    where news_id = #{news_id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select news_id from news 
+  	order by news_id
+  </select>
+  
+  <select id="selectall" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from news 
+  	where news_type = #{news_type,jdbcType=VARCHAR}
+  	order by news_time DESC
+  </select>
+  
+  <select id="selectallnews" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from news 
+  	order by news_time DESC
+  </select>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.stock.pojo.News" >
+    update news
+    <set >
+      <if test="news_title != null" >
+        news_title = #{news_title,jdbcType=VARCHAR},
+      </if>
+      <if test="news_source != null" >
+        news_source = #{news_source,jdbcType=VARCHAR},
+      </if>
+      <if test="news_time != null" >
+        news_time = #{news_time,jdbcType=VARCHAR},
+      </if>
+      <if test="news_type != null" >
+        news_type = #{news_type,jdbcType=VARCHAR},
+      </if>
+      <if test="news_content != null" >
+        news_content = #{news_content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where news_id = #{news_id,jdbcType=INTEGER}
+  </update>
+ 
+  
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from news where news_title=#{news_title,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectcontent"  resultMap="BaseResultMap">
+  	select news_content from news 
+  </select>
+  
+</mapper>

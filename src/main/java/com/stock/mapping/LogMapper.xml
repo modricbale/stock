@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.stock.mapping.LogMapper">  
+  <resultMap id="BaseResultMap" type="com.stock.pojo.Log" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="createdate" property="createdate" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="yuxiao" property="yuxiao" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userid, createdate, content, type, yuxiao
+  </sql>
+    <!-- 添加日志记录 -->  
+    <insert id="insert" parameterType="com.stock.pojo.Log">  
+        insert into t_log (userid,createdate,content,operation,type,yuxiao)  
+        values(#{userid,jdbcType=INTEGER},#{createdate,jdbcType=VARCHAR},
+        #{content,jdbcType=VARCHAR},#{operation,jdbcType=VARCHAR},#{type,jdbcType=INTEGER},#{yuxiao,jdbcType=VARCHAR}
+       );  
+    </insert>  
+    
+    <select id="selecttime" parameterType="java.lang.Integer" resultType="java.lang.String">
+  	select createdate from t_log 
+  	where type = #{type,jdbcType=INTEGER}
+ 	</select>
+ 	
+ 	 <select id="selectstock" parameterType="java.lang.Integer" resultType="java.lang.String">
+  	select content from t_log 
+  	where type = #{type,jdbcType=INTEGER}
+ 	</select>
+ 	
+ 	 <select id="selectbytype" parameterType="java.lang.Integer" resultType="java.lang.String">
+  	select content from t_log 
+  	where type = #{type,jdbcType=INTEGER}
+ 	</select>
+ 	
+ 	 <select id="selectbyuser"  resultMap="BaseResultMap">
+  	select content,createdate,userid from t_log 
+  	where userid = #{0} and type = #{1}
+  	order by createdate desc
+ 	</select>
+ 	
+ 	 <select id="all_trace" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select content, createdate from t_log 
+  	where userid = #{userid,jdbcType=INTEGER}
+ 	</select>
+ 	
+ 	<select id="login_trace" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select content, createdate from t_log 
+  	where userid = #{0} and type = #{1}
+  	order by createdate desc
+ 	</select>
+</mapper>  
+
